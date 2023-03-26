@@ -1,16 +1,11 @@
 import { createContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import { Column } from "./components/Common";
+import BottomLeft from "./components/BottomLeft";
+import { Column, FixedContainer } from "./components/Common";
 import ItemHelp from "./components/ItemHints";
 import Key, { getHelperKeys } from "./components/Key";
 import WeaponCluster from "./components/WeaponCluster";
 import { GameHudData, KeyHelper, WeaponInfo } from "./data";
-
-export const FixedContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-`;
 
 const GameHudContainer = styled(FixedContainer)`
   width: 100%;
@@ -45,6 +40,7 @@ const GameHud = ({gameHudData}: {gameHudData: GameHudData}) => {
             </ContextContainer>
             <WeaponCluster weaponInfo={gameHudData.weapons} />
             <ItemHelp weaponInfo={gameHudData.weapons} />
+            <BottomLeft />
           </GameHudContainer>
           </ControllerContext.Provider>
         </KeyHelpContext.Provider>

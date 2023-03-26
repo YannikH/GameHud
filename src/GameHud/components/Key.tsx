@@ -85,7 +85,7 @@ export const Trigger = styled.span`
   align-items: center;
   justify-content: center;
   font-size: 10px;
-  padding: 3px;
+  padding: 0 3px;
   margin-right: 10px;
   border-radius: 3px;
 `;

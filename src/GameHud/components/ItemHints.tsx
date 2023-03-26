@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { WeaponInfo } from "../data";
-import { FixedContainer } from "../GameHud";
-import { Column, Row } from "./Common";
+import { Column, Row, FixedContainer } from "./Common";
 import Key from "./Key";
 
 

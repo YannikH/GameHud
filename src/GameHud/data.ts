@@ -80,7 +80,7 @@ export const gameHudMock: GameHudData = {
     {
       region: "BL",
       pc: ['H'],
-      xbox: ['A'],
+      xbox: ['Y'],
       hint: 'Keybind Info'
     }
   ]
