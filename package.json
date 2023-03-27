@@ -45,5 +45,11 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26"
+  },
+  "overrides": {
+    "react-json-view": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }
