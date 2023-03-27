@@ -77,9 +77,9 @@ const GameHudTester = () => {
     <Container>
       <h1> HTML5 Game Hud Test </h1>
       <ScreenContainer>
-        <GameHud gameHudData={gameHudData}/>
+        <GameHud gameHudData={gameHudData} setGameHudData={setGameHudData}/>
       </ScreenContainer>
-      <TestVarController gameHudData={gameHudData} setGameHudData={setGameHudData} />
+      <TestVarController gameHudData={gameHudData} />
     </Container>
   )
 };

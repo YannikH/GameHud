@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { WeaponInfo } from '../data'
+import { GameHudData } from '../data'
 import { KeyHelpContext } from '../GameHud';
 import { Column, Row } from './Common'
 import { getHelperKeys } from './Key';
@@ -23,6 +23,10 @@ const WeaponClusterPositioner = styled.div`
   bottom: 0;
   right: 0;
   margin: 15px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 const WeaponImage = styled.img`
@@ -40,6 +44,7 @@ const MagazineImage = styled.img`
 const AmmoColumn = styled(Column)`
   padding-right: 15px;
   border-right: solid 1px white;
+  min-width: 80px;
 `;
 
 const StanceIndicator = styled.img`
@@ -49,20 +54,40 @@ const StanceIndicator = styled.img`
   margin-right: -2vw;
 `;
 
-const WeaponCluster = ({weaponInfo}: {weaponInfo: WeaponInfo}) => {
+const LockIcon = styled.img`
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  height: 50%;
+  margin-left:-12.5%;
+  width: auto;
+`;
+
+const WeaponCluster = ({gameHudData}: {gameHudData: GameHudData}) => {
   const keysConfig = useContext(KeyHelpContext);
   const keys = getHelperKeys(keysConfig, 'BR');
+  const isSafe = gameHudData.firemodeName === 'Safe';
+  const weaponOpacity = isSafe ? '20%' : '100%';
   return (
     <WeaponClusterPositioner>
       <WeaponClusterBackground>
         <SkewCounter>
-          <WeaponImage src={weaponInfo.current.icon} />
+          <div style={{position: 'relative'}}>
+            <LockIcon
+              src="lock-icon.png"
+              hidden={!isSafe}
+            />
+            <WeaponImage
+              src={gameHudData.currentWeaponIcon}
+              style={{opacity: weaponOpacity}}
+            />
+          </div>
           <AmmoColumn>
-            <span>{weaponInfo.firemode.name} | {weaponInfo.current.ammoName}</span>
+            <span>{gameHudData.firemodeName} | {gameHudData.ammoName}</span>
             <Row>
-              {weaponInfo.current.ammo}
-              <MagazineImage src={weaponInfo.current.magazineIcon} />
-              x{weaponInfo.current.magazines}
+              {gameHudData.ammo}
+              <MagazineImage src={gameHudData.magazineIcon} />
+              x{gameHudData.magazines}
             </Row>
           </AmmoColumn>
           <StanceIndicator src="run.png" />

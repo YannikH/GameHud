@@ -20,15 +20,51 @@ const ContextContainer = styled(FixedContainer)`
   left: 0;
 `;
 
+declare global {
+  interface Window {
+    UpdateGameData: (gameVars: any) => void;
+    ShowKeybindHint: (keybind: KeyHelper) => void;
+    RemoveKeybindHint: (id: string) => void;
+  }
+}
+
 
 export const ControllerContext = createContext(true);
 export const KeyHelpContext = createContext([] as KeyHelper[]);
 
-const GameHud = ({gameHudData}: {gameHudData: GameHudData}) => {
+const GameHud = ({gameHudData, setGameHudData}: {gameHudData: GameHudData, setGameHudData: React.Dispatch<GameHudData>}) => {
+  const updateGameData = (gameVars: any) => {
+    setGameHudData({
+      ...gameHudData,
+      ...gameVars
+    })
+  };
+
+  const ShowKeybindHint = (keybind: KeyHelper) => {
+    gameHudData.keyHelpers.push(keybind);
+    setGameHudData({
+      ...gameHudData
+    })
+  };
+  const RemoveKeybindHint = (id: string) => {
+    const remainingHelpers = gameHudData.keyHelpers.filter((help: KeyHelper) => {
+      return help.id !== id
+    });
+    setGameHudData({
+      ...gameHudData,
+      keyHelpers: remainingHelpers
+    });
+  };
+
+  window.UpdateGameData = updateGameData;
+  window.ShowKeybindHint = ShowKeybindHint;
+  window.RemoveKeybindHint = RemoveKeybindHint;
+
   const backgrounds = ['bg1.png', 'bg2.png'];
   const gameHudTheme = {
     background: backgrounds[gameHudData.background]
   };
+
   const keys = getHelperKeys(gameHudData.keyHelpers, 'CENTER');
   return (
     <ThemeProvider theme={gameHudTheme}>
@@ -38,8 +74,8 @@ const GameHud = ({gameHudData}: {gameHudData: GameHudData}) => {
             <ContextContainer>
               <Column> {keys} </Column>
             </ContextContainer>
-            <WeaponCluster weaponInfo={gameHudData.weapons} />
-            <ItemHelp weaponInfo={gameHudData.weapons} />
+            <WeaponCluster gameHudData={gameHudData} />
+            <ItemHelp weaponInfo={gameHudData} />
             <BottomLeft />
           </GameHudContainer>
           </ControllerContext.Provider>

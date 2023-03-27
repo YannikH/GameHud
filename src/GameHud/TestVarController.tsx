@@ -49,29 +49,24 @@ const SettingsColumn = styled(Column)`
   }
 `;
 
-const TestVarController = ({gameHudData, setGameHudData}: {gameHudData: GameHudData, setGameHudData: React.Dispatch<GameHudData>}) => {
+const TestVarController = ({gameHudData,}: {gameHudData: GameHudData}) => {
 
   const setBackground = (idx: number) => {
-    setGameHudData({
-      ...gameHudData,
+    window.UpdateGameData({
       background: idx
     })
   };
 
   const toggleController = () => {
-    setGameHudData({
-      ...gameHudData,
+    window.UpdateGameData({
       usingController: !gameHudData.usingController
     })
   };
 
   const setWeapon = (name: string) => {
-    const weaponInfo = gameHudData.weapons;
-    weaponInfo.current.icon = `${name}.png`;
-    weaponInfo.allWeapons.primary = `${name}.png`;
-    setGameHudData({
-      ...gameHudData,
-      weapons: weaponInfo,
+    window.UpdateGameData({
+      currentWeaponIcon: `${name}.png`,
+      primaryIcon: `${name}.png`
     })
   };
 
@@ -99,8 +94,14 @@ const TestVarController = ({gameHudData, setGameHudData}: {gameHudData: GameHudD
         <h1>Player Settings</h1>
         <OptionRow>
           Primary weapon
-          <ConditionalButton active={gameHudData.weapons.current.icon === 'm4a1.png'} onClick={() => setWeapon('m4a1')}>M4A1</ConditionalButton>
-          <ConditionalButton active={gameHudData.weapons.current.icon === 'l85.png'} onClick={() => setWeapon('l85')}>L85</ConditionalButton>
+          <ConditionalButton active={gameHudData.currentWeaponIcon === 'm4a1.png'} onClick={() => setWeapon('m4a1')}>M4A1</ConditionalButton>
+          <ConditionalButton active={gameHudData.currentWeaponIcon === 'l85.png'} onClick={() => setWeapon('l85')}>L85</ConditionalButton>
+        </OptionRow>
+        <OptionRow>
+          Firemode
+          <ConditionalButton active={gameHudData.firemodeName === 'Safe'} onClick={() => window.UpdateGameData({firemodeName: 'Safe'})}>Safe</ConditionalButton>
+          <ConditionalButton active={gameHudData.firemodeName === 'Semi'} onClick={() => window.UpdateGameData({firemodeName: 'Semi'})}>Semi</ConditionalButton>
+          <ConditionalButton active={gameHudData.firemodeName === 'Full'} onClick={() => window.UpdateGameData({firemodeName: 'Full'})}>Full</ConditionalButton>
         </OptionRow>
       </SettingsColumn>
       <SettingsColumn>
