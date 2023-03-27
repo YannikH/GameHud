@@ -112,16 +112,19 @@ export const ControllerButton = ({children}: {children?: React.ReactNode}) => {
 };
 
 const KeyRow = styled(Row)`
-  background-color: rgb(50 50 50 / 74%);
+  /* background-color: rgb(50 50 50 / 74%); */
   border-radius: 16px;
   padding-right: 10px;
   color: white;
 `;
 
 const HintText = styled.span`
-  font-size: 17px;
+  font-size: 23px;
   letter-spacing: 1px;
   text-transform: capitalize;
+  text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
+  -webkit-text-stroke: 1px #000;
+  font-weight: 900;
 `;
 
 export const getHelperKeys = (keys: KeyHelper[], region: KeyRegion) => {

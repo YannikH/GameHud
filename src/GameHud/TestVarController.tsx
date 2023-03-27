@@ -1,3 +1,4 @@
+import ReactJson from "react-json-view";
 import styled from "styled-components";
 import { Column, Row } from "./components/Common";
 import { GameHudData } from "./data";
@@ -38,9 +39,7 @@ const ConditionalButton = ({children, active, onClick}: {children: React.ReactNo
 
 const SettingsColumn = styled(Column)`
   justify-content: flex-start;
-  border-right: solid 1px white;
 
-  margin: 30px 0;
   padding: 0 30px;
   align-items: start;
 
@@ -80,33 +79,41 @@ const TestVarController = ({gameHudData,}: {gameHudData: GameHudData}) => {
   });
 
   return (
-    <Row style={{alignItems: 'self-start', justifyContent: 'center', width: '70vw'}}>
-      <SettingsColumn>
-        <h1>General settings</h1>
-        <OptionRow>
-          Background image: { backgroundButtons }
-        </OptionRow>
-        <OptionRow>
-          Using controller: <input type="checkbox" checked={gameHudData.usingController} onClick={() => toggleController()}/>
-        </OptionRow>
-      </SettingsColumn>
-      <SettingsColumn>
-        <h1>Player Settings</h1>
-        <OptionRow>
-          Primary weapon
-          <ConditionalButton active={gameHudData.currentWeaponIcon === 'm4a1.png'} onClick={() => setWeapon('m4a1')}>M4A1</ConditionalButton>
-          <ConditionalButton active={gameHudData.currentWeaponIcon === 'l85.png'} onClick={() => setWeapon('l85')}>L85</ConditionalButton>
-        </OptionRow>
-        <OptionRow>
-          Firemode
-          <ConditionalButton active={gameHudData.firemodeName === 'Safe'} onClick={() => window.UpdateGameData({firemodeName: 'Safe'})}>Safe</ConditionalButton>
-          <ConditionalButton active={gameHudData.firemodeName === 'Semi'} onClick={() => window.UpdateGameData({firemodeName: 'Semi'})}>Semi</ConditionalButton>
-          <ConditionalButton active={gameHudData.firemodeName === 'Full'} onClick={() => window.UpdateGameData({firemodeName: 'Full'})}>Full</ConditionalButton>
-        </OptionRow>
-      </SettingsColumn>
-      <SettingsColumn>
-        <h1>Actions</h1>
-      </SettingsColumn>
+    <Row style={{alignItems: 'flex-start'}}>
+      <Column style={{alignItems: 'self-start', justifyContent: 'flex-start'}}>
+        <SettingsColumn>
+          <h1>General settings</h1>
+          <OptionRow>
+            Background image: { backgroundButtons }
+          </OptionRow>
+          <OptionRow>
+            Using controller: <input type="checkbox" checked={gameHudData.usingController} onClick={() => toggleController()}/>
+          </OptionRow>
+        </SettingsColumn>
+        <SettingsColumn>
+          <h1>Player Settings</h1>
+          <OptionRow>
+            Primary weapon
+            <ConditionalButton active={gameHudData.currentWeaponIcon === 'm4a1.png'} onClick={() => setWeapon('m4a1')}>M4A1</ConditionalButton>
+            <ConditionalButton active={gameHudData.currentWeaponIcon === 'l85.png'} onClick={() => setWeapon('l85')}>L85</ConditionalButton>
+          </OptionRow>
+          <OptionRow>
+            Firemode
+            <ConditionalButton active={gameHudData.firemodeName === 'Safe'} onClick={() => window.UpdateGameData({firemodeName: 'Safe'})}>Safe</ConditionalButton>
+            <ConditionalButton active={gameHudData.firemodeName === 'Semi'} onClick={() => window.UpdateGameData({firemodeName: 'Semi'})}>Semi</ConditionalButton>
+            <ConditionalButton active={gameHudData.firemodeName === 'Full'} onClick={() => window.UpdateGameData({firemodeName: 'Full'})}>Full</ConditionalButton>
+          </OptionRow>
+        </SettingsColumn>
+      </Column>
+      <Column style={{alignItems: 'self-start', justifyContent: 'center', width: '60vw', marginLeft: '30px'}}>
+          <h1>Raw game data</h1>
+        <ReactJson 
+          src={gameHudData}
+          theme="monokai"
+          style={{textAlign: 'left', width: '100%'}}
+          onEdit={(edit) => {window.UpdateGameData(edit.updated_src); return true}}
+        />
+      </Column>
     </Row>
   );
 };
